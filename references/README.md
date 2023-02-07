@@ -1,0 +1,2 @@
+# OTTO Retail-API specifications
+
