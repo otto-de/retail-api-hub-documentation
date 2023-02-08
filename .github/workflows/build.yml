@@ -18,7 +18,7 @@ jobs:
         run: |-
           npm install -g md-to-pdf
           mkdir -p _output
-          find . -name "*.md" ! -name "README.md" ! -path "./_output/*" | sort -n | while read file; do cat "$file"; echo "<div class="page-break"></div>"; echo; done > ./_output/otto-retail-api-guidelines.md
+          find . -name "*.md" ! -name "README.md"  ! -name "CONTRIBUTING.md" ! -path "./_output/*" | sort -n | while read file; do cat "$file"; echo "<div class="page-break"></div>"; echo; done > ./_output/otto-retail-api-guidelines.md
           md-to-pdf ./_output/otto-retail-api-guidelines.md
           md-to-pdf --as-html --config-file ./.github/workflows/config.json ./_output/otto-retail-api-guidelines.md
 
