@@ -24,4 +24,7 @@ The OTTO Retail-API specifications can be found in the [References](references) 
 
 ## This repository
 This repository contains a collection of documents and related materials for the implementation of the OTTO Retail-API.
-Only OTTO employees are currently allowed to contribute to this repository.
+To contribute to this repository, please see the [contribution guidelines](CONTRIBUTING.md).
+
+# License
+We have published these guidelines under the CC-BY-4.0 (Creative commons Attribution 4.0) license. Please see [LICENSE file](LICENSE).
