@@ -99,20 +99,21 @@ If a request fails, the API returns an error response with an HTTP status code, 
 
 ```http
 HTTP/1.1 401 Unauthorized
-Content-Type: application/json
+Content-Type: application/problem+json
 Cache-Control: no-store
 
 {
-  "error": "unauthorized_request",
-  "error_description": "Authentication is required, but has failed or has not yet been provided.",
-  "error_uri": "See the full API docs at https://authorization-server.com/docs/access_token"
+    "type": "about:blank",
+    "title": "Unauthorized",
+    "status": 401,
+    "detail": "Authentication is required, but has failed or has not yet been provided."
 }
 ```
 
 The API responds as follows:
 
-| Response                                          | Possible cause and solution                                                                                                                             |
-| ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Code**: 401 UNAUTHORIZED <br> **Content**: None | A possible cause might be a missing authorization header or incorrect credentials.                                                                      |
-| **Code**: 403 FORBIDDEN <br> **Content**: None    | Access to the requested resource is not allowed, because the access token is invalid or expired.<br>A possible solution is refreshing the access token. |
+| Response                     | Possible cause and solution                                                                                                                             |
+|------------------------------| ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Code**: 401 UNAUTHORIZED   | A possible cause might be a missing authorization header or incorrect credentials.                                                                      |
+| **Code**: 403 FORBIDDEN      | Access to the requested resource is not allowed, because the access token is invalid or expired.<br>A possible solution is refreshing the access token. |
 

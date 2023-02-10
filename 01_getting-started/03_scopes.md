@@ -4,7 +4,7 @@ We protect access to our resources and restrict access to the OTTO Retail-API by
 Scopes allow you to specify which permissions your client application requires.
 
 Currently, all scopes are automatically assigned to your client with your initial request for API access.
-Find more information on how to get API access [here](..).
+Find more information on how to get API access [here](https://github.com/otto-de/retail-api-hub-documentation).
 
 Here is an overview of all available business scopes:
 

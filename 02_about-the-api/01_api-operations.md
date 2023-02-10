@@ -10,7 +10,7 @@ To build a REST request, combine the respective HTTP method with the following i
 - Request headers (operation-specific)
 - Request body (operation-specific)
 
-For example, the following request modifies the payment of an existing checkout in the API's production environment:
+For example:
 
 ```http
 POST /products/<product-id:string> HTTP/1.1
