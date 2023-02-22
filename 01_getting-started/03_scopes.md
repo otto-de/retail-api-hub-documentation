@@ -10,6 +10,3 @@ Here is an overview of all available business scopes:
 
 **Production:**
 - products
-
-**Sandbox:**
-- products-sandbox
