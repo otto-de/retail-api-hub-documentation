@@ -1,0 +1,838 @@
+openapi: 3.0.3
+info:
+  title: Otto Retail Products API
+  description: '# OTTO Retail API Developer''s Guide'
+  version: 1.0.0
+servers:
+  - url: https://retail-api-dev.otto.de
+    description: Sandbox
+  - url: https://retail-api.otto.de
+    description: Production
+paths:
+  /products/brands:
+    get:
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+            description: The brands page number that you want to get.
+            default: 0
+            minimum: 0
+        - in: query
+          name: pageSize
+          schema:
+            type: integer
+            description: The number of brands returned per page.
+            default: 100
+            minimum: 10
+      summary: List of allowed brands
+      description: >-
+        Read the list of brands. The list of brands will be paginated. Brands
+        consist of a name, and a corresponding brand id. The brand id will be
+        used when you submit your product data. The default page length is 100
+        entries per response, the page size upper limit is 1000. The links
+        specified in the result can be used to page through the total result
+        space. Note that there will be no prev link on the first page and no
+        next link on the last page.
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BrandResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          description: >-
+            The technical user is not authorized to read the list of known
+            brands. this may be the case if the user does not have the necessary
+            role.
+  /products/category-groups:
+    get:
+      parameters:
+        - in: query
+          name: page
+          description: The category group page number that you want to get.
+          schema:
+            type: integer
+            description: The product categories page you want to get
+            default: 0
+            minimum: 0
+        - in: query
+          name: pageSize
+          description: The number of category groups returned per page.
+          schema:
+            type: integer
+            description: The number of categories per page
+            default: 100
+            minimum: 10
+      summary: Get an overview of all available Product Category Groups
+      description: >-
+        Returns the list of possible category groups. Generally the resulting
+        product categories values will be paginated. The default page length is
+        100 product category groups per response, the page size limit is 2000.
+        The links specified in the result can be used to page through the total
+        result space.
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductCategoryGroupsResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          description: >-
+            The technical user is not authorized to read the list of category
+            groups. This may be the case if the user does not have the necessary
+            role.
+  /products/category-groups/{categoryGroupId}:
+    get:
+      parameters:
+        - in: path
+          name: categoryGroupId
+          required: true
+          schema:
+            type: string
+            description: >-
+              The id of the category group that you want to query. The id can be
+              obtained via the category group list endpoint.
+      summary: >-
+        Get a specific Product category group based on the product category
+        group id
+      description: >-
+        Returns the details of the requested category group. The id of the
+        category group can be obtained via the category group list endpoint (Get
+        an overview of all available Product Category Groups).
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CategoryGroupDTO'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          description: >-
+            The technical user is not authorized to read the requested category
+            group. This may be the case, if the user does not have the necessary
+            role.
+        '404':
+          description: We cannot find a product category group for the provided id.
+  /products:
+    post:
+      summary: Create or update product variations
+      description: >-
+        Endpoint to create or update product variations. Returns a process id to
+        query results.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductListDTO'
+      responses:
+        '201':
+          description: Job created. The upload and validation process can take a while.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobStatusDTO'
+        '400':
+          description: Validation failed
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          description: >-
+            The technical user is not authorized to post products to this
+            endpoint. This may be the case if the user does not have the
+            necessary role.
+  /products/job/{jobId}:
+    get:
+      parameters:
+        - in: path
+          name: jobId
+          required: true
+          schema:
+            type: string
+            description: >-
+              The Job id in UUID format that you get after you upload one or
+              several products.
+      summary: Get the upload status of your products
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobStatusDTO'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          description: >-
+            The technical user is not authorized to request jobs. This may be
+            the case if the user does not have the necessary role.
+        '404':
+          description: When we cant find a job to the given jobId
+components:
+  schemas:
+    BrandDTO:
+      required:
+        - id
+        - name
+        - usable
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: The brand id which you have to use with your product data uploads
+          nullable: false
+        name:
+          type: string
+          nullable: false
+          description: >-
+            The name of the brand. Use this name to find the brand of your
+            products in the list of available brands
+          example: Adidas
+        usable:
+          type: boolean
+          nullable: false
+          description: >-
+            True if you can use this brand, false if not. Expect that this value
+            can change over time for a given brand.
+          example: true
+          default: true
+    LinkDTO:
+      description: A list of links that can be used for pagination.
+      required:
+        - rel
+        - href
+      type: object
+      properties:
+        rel:
+          type: string
+          nullable: false
+          example: self
+        href:
+          nullable: false
+          type: string
+          example: >-
+            [{ 'ref': 'self', 'href': '/products/brands?page=0&page_size=100\' }
+            ]
+    PageDTO:
+      description: Pagination information object.
+      required:
+        - size
+        - number
+        - totalElements
+        - totalPages
+      type: object
+      properties:
+        size:
+          type: integer
+          nullable: false
+          example: 5
+        number:
+          type: integer
+          nullable: false
+          example: 0
+        totalElements:
+          type: integer
+          nullable: false
+          example: 50
+        totalPages:
+          type: integer
+          nullable: false
+          example: 10
+    BrandResponse:
+      required:
+        - brands
+        - _links
+        - _page
+      type: object
+      properties:
+        brands:
+          description: List of brand objects
+          type: array
+          items:
+            $ref: '#/components/schemas/BrandDTO'
+        _links:
+          type: array
+          items:
+            $ref: '#/components/schemas/LinkDTO'
+        _page:
+          $ref: '#/components/schemas/PageDTO'
+    ProblemDetail:
+      type: object
+      properties:
+        type:
+          type: string
+          nullable: false
+          example: about:blank
+        title:
+          type: string
+          nullable: true
+        status:
+          type: integer
+          nullable: false
+          example: 200
+        detail:
+          type: string
+          nullable: true
+        instance:
+          type: string
+          nullable: true
+        properties:
+          type: array
+          nullable: true
+          items:
+            type: string
+    CategoryGroupOverviewDTO:
+      required:
+        - name
+        - id
+        - categories
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          nullable: false
+          description: >-
+            The category group id which you have to use when querying the
+            category group endpoint and use with your product data uploads.
+        name:
+          type: string
+          description: The name of the category group.
+          nullable: false
+          example: 23_1_Schuhe
+        categories:
+          description: The list of the contained categories within this category group.
+          type: array
+          items:
+            type: string
+    ProductCategoryGroupsResponse:
+      required:
+        - categoryGroups
+        - _links
+        - _page
+      type: object
+      properties:
+        categoryGroups:
+          description: The list of category groups.
+          type: array
+          nullable: false
+          items:
+            $ref: '#/components/schemas/CategoryGroupOverviewDTO'
+        _links:
+          type: array
+          nullable: false
+          items:
+            $ref: '#/components/schemas/LinkDTO'
+        _page:
+          $ref: '#/components/schemas/PageDTO'
+    AttributeDTO:
+      properties:
+        name:
+          description: Name of the attribute
+          type: string
+          nullable: false
+          example: Absatzart
+        description:
+          description: Description of the attribute
+          type: string
+          nullable: true
+        attributeGroup:
+          type: string
+          nullable: false
+          description: Attributes can be clustered, e.g. disposition, pricing, etc.
+          example: Details
+        type:
+          description: >-
+            Defines the format of the attribute value, such as string, integer,
+            etc.
+          enum:
+            - FLOAT
+            - STRING
+            - INTEGER
+          type: string
+          nullable: true
+          example: String
+        unit:
+          description: >-
+            Unit of the attribute. The values must be submitted in this
+            specified unit.
+          type: string
+          nullable: true
+          example: kg
+        unitDisplayName:
+          description: Unit display name of the attribute
+          type: string
+          nullable: false
+          example: Float
+        multiValue:
+          type: boolean
+          description: >-
+            If the value is true, several values can be transferred for this
+            attribute (polyvalence attribute); otherwise, only a single value
+            may be transferred for this attribute.
+          nullable: false
+          example: true
+        allowedValues:
+          type: array
+          description: Only the listed values are permitted for the attribute.
+          items:
+            type: string
+          example:
+            - Blockabsatz
+            - Keilabsatz
+            - Plateauabsatz
+            - Stilettoabsatz
+        exampleValues:
+          description: Example values for the attribute.
+          type: array
+          items:
+            type: string
+          example:
+            - '3.0'
+        attributeLevel:
+          type: string
+          description: >-
+            Specifies if the attribute is specified on the variant or product
+            level (unique for all variants of the product).
+          enum:
+            - PRODUCT
+            - VARIANT
+        featureRelevance:
+          description: >-
+            Describes what the attribute can be used for and where it gets
+            displayed in the shop.
+          type: array
+          items:
+            type: string
+            example: FILTER, NAVIGATION, SEARCH
+        relevance:
+          description: The relevance of the attribute.
+          type: string
+          enum:
+            - LOW
+            - MEDIUM
+            - HIGH
+        fieldRequirement:
+          description: Describes if the attribute is mandatory, recommended or optional.
+          type: string
+          enum:
+            - MANDATORY
+            - RECOMMENDED
+            - OPTIONAL
+    CategoryGroupDTO:
+      required:
+        - id
+        - name
+        - categories
+        - attributes
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          nullable: false
+          description: >-
+            The id of the category group. You will have to use this id when you
+            submit your product data.
+        name:
+          type: string
+          nullable: false
+          description: The name of the category group
+          example: 23_1_Schuhe
+        categories:
+          description: The list of categories that are contained in this category group.
+          type: array
+          items:
+            type: string
+        attributes:
+          description: List of attributes for this category group.
+          type: array
+          nullable: false
+          items:
+            $ref: '#/components/schemas/AttributeDTO'
+    NameValuesDTO:
+      type: object
+      properties:
+        name:
+          type: string
+          nullable: false
+          description: The name of the describing attribute, like 'Farbe' or 'Größe'.
+          example: Farbe
+        values:
+          type: array
+          nullable: false
+          items:
+            type: string
+          description: The values for the given attribute, like 'rot' or 'S'.
+          example:
+            - rot
+            - blau
+    PriceDTO:
+      required:
+        - amount
+        - unit
+      type: object
+      properties:
+        amount:
+          type: number
+          nullable: false
+          description: >-
+            Holds the value of the monetary amount expressed in a currency, e.g.
+            EUR. The number format expects a decimal point, like 10.99. Numbers
+            without a decimal point are taken as a unit of the given currency,
+            e.g. 10 is taken as 10 EUR.
+          example: 39.99
+        currency:
+          type: string
+          nullable: false
+          enum:
+            - EUR
+          description: "Holds the currency of the monetary amount expressed as a shortcut according to ISO 4217 and http://publications.europa.eu/code/de/de-5000700.htm NOTE: Currently the only allowed currency code is \"EUR\". All other currency codes will be rejected.\t"
+    PricingDTO:
+      required:
+        - purchasingPrice
+      type: object
+      properties:
+        purchasingPrice:
+          $ref: '#/components/schemas/PriceDTO'
+          nullable: false
+          description: This container holds the purchasing price information.
+        msrp:
+          description: >-
+            This container holds the manufacturer's suggested retail price
+            information (UVP).
+          $ref: '#/components/schemas/PriceDTO'
+      description: >-
+        This container holds the attributes for the different price types and
+        currency related information.
+    MediaAssetDTO:
+      type: object
+      properties:
+        location:
+          nullable: false
+          type: string
+          format: url
+          description: >-
+            The location of the media asset as a valid URL (see
+            http://www.ietf.org/rfc/rfc2396.txt and
+            http://www.ietf.org/rfc/rfc2732.txt) with a maximum length of 2083
+            characters.
+        type:
+          nullable: false
+          type: string
+          enum:
+            - IMAGE
+            - DIMENSIONAL_DRAWING
+            - ENERGY_EFFICIENCY_LABEL
+            - MATERIAL_SAMPLE
+            - PRODUCT_DATASHEET
+            - USER_MANUAL
+            - MANUFACTURER_WARRANTY
+            - SAFETY_DATASHEET
+            - ASSEMBLY_INSTRUCTIONS
+            - WARNING_LABEL
+          description: The type of the provided media asset.
+    PackingUnitDTO:
+      required:
+        - id
+        - height
+        - width
+        - length
+        - weight
+      properties:
+        id:
+          type: string
+          nullable: false
+          description: The id of the packing unit.
+          example: PACK-1
+        height:
+          type: number
+          nullable: false
+          description: >-
+            The height of a packing unit in cm. The number format expects a
+            decimal point, like 10.99. Numbers without a decimal point are taken
+            as a unit of the given currency, e.g. 10 is taken as 10 cm.
+          example: '23.99'
+        width:
+          type: number
+          nullable: false
+          description: >-
+            The width of a packing unit in cm. The number format expects a
+            decimal point, like 10.99. Numbers without a decimal point are taken
+            as a unit of the given currency, e.g. 10 is taken as 10 cm.
+          example: '33'
+        length:
+          type: number
+          nullable: false
+          description: >-
+            The length of a packing unit in cm. The number format expects a
+            decimal point, like 10.99. Numbers without a decimal point are taken
+            as a unit of the given currency, e.g. 10 is taken as 10 cm.
+          example: '45'
+        weight:
+          type: number
+          nullable: false
+          description: >-
+            The weight of a packing unit in kg. The number format expects a
+            decimal point, like 10.99. Numbers without a decimal point are taken
+            as a unit of the given currency, e.g. 10 is taken as 10 kg.
+          example: '10'
+        description:
+          type: string
+          description: The description of the packing unit.
+          example: Tischbeine
+    VariantDTO:
+      required:
+        - sku
+        - pricing
+      type: object
+      properties:
+        sku:
+          type: string
+          nullable: false
+          description: >-
+            Identifier for a product variation, provided by the supplier. The
+            sku can be freely assigned but it must be unique within the complete
+            product catalog of a supplier. It is used as the variant key and you
+            can reference your variants using the sku.
+          example: VAR-XY-123
+        ean:
+          type: string
+          description: >-
+            The EAN (European Article Number), also known as GTIN (Global Trade
+            Item Number), is a worldwide unique article number for variants,
+            which is assigned by GS1.
+          example: 1234567890123
+        pricing:
+          $ref: '#/components/schemas/PricingDTO'
+        mediaAssets:
+          type: array
+          items:
+            $ref: '#/components/schemas/MediaAssetDTO'
+          description: >-
+            A list of media assets describing this product variation. You can
+            specify pdfs and images. If you specify an image, the following
+            restrictions apply: only static images of the types JPG or PNG with
+            a RGB color space and the images have to have a minimum size of 480
+            x 960 pixel and a maximum width of 4500 pixel for each side.
+        packingUnits:
+          type: array
+          items:
+            $ref: '#/components/schemas/PackingUnitDTO'
+          description: The list of packing units information.
+        attributes:
+          nullable: false
+          type: array
+          items:
+            $ref: '#/components/schemas/NameValuesDTO'
+          description: >-
+            Lists all the descriptive information about a variant that might be
+            individual for all the variations of your product. The object must
+            be provided in the form of key values pairs.  The list of key value
+            pairs and their configuration (data type, multiplicity, etc.) can be
+            obtained from the structure endpoint and depends on the
+            categoryGroup. All attributes with "attributeLevel"=""VARIANT" can
+            be provided in this array. All objects must be identical for all
+            variants of a product.
+    ProductDTO:
+      type: object
+      required:
+        - productReference
+        - brandId
+        - supplierCode
+        - categoryGroupId
+        - category
+        - variants
+      properties:
+        productReference:
+          type: string
+          nullable: false
+          description: >-
+            The productReference groups all variations, that you want to combine
+            into one product. You should therefore use a value that makes sense
+            for all variations of the product and does not refer to any
+            specifics of a particular variation. The productReference can be
+            freely assigned but it must be unique within the complete product
+            catalog of a supplier. It is used as the product key and you can
+            reference your products via the productReference.
+          example: DQU16
+        brandId:
+          type: string
+          format: uuid
+          nullable: false
+          description: >-
+            Denotes the brand ID of a product. Brands and the mapping of their
+            names to brand Ids can be retrieved via the brand endpoint. Must be
+            identical for all variants of a product.
+          example: 434efd7a-499c-4d2a-9d9f-2636097a4051
+        supplierCode:
+          type: string
+          nullable: false
+          description: >-
+            Denotes your supplier code that you have received from Otto to
+            identify your company. Must be identical for all variants of a
+            product.
+          example: '12345'
+        categoryGroupId:
+          type: string
+          format: uuid
+          nullable: false
+          description: >-
+            Denotes the id of the assortment group (like 'Fernseher' or
+            'T-shirt') of the product. The list of allowed categoryGroupId's can
+            be retrieved via the structure endpoint. Must be identical for all
+            variants of a product.
+          example: b2e03856-e99f-475a-9d97-d4be8ed15d7e
+        category:
+          type: string
+          nullable: false
+          description: >-
+            Denotes the assortment type of the product (like "OLED-Fernseher").
+            Must be identical for all variants of a product.
+          example: OLED-Fernseher
+        productAttributes:
+          type: array
+          items:
+            $ref: '#/components/schemas/NameValuesDTO'
+          description: >-
+            Lists all the descriptive information about a product that are
+            common for all the variations of your product. The object must be
+            provided in the form of key values pairs. The list of key value
+            pairs and their configuration (data type, multiplicity, etc.) can be
+            obtained from the structure endpoint and depends on the
+            categoryGroup. All attributes with "attributeLevel"="PRODUCT" can be
+            provided in this array. All objects must be identical for all
+            variants of a product.
+        variants:
+          type: array
+          nullable: false
+          items:
+            $ref: '#/components/schemas/VariantDTO'
+          description: Lists all the variants of the product.
+    ProductListDTO:
+      type: array
+      items:
+        $ref: '#/components/schemas/ProductDTO'
+    ViolationDetailDTO:
+      properties:
+        detail:
+          type: string
+          nullable: false
+          enum:
+            - UNKNOWN
+            - VARIANT_IDENTIFIER
+            - PRODUCT_IDENTIFIER
+            - LKZ
+            - BRAND
+            - BRAND_OPTIONS
+            - FEATURE
+            - PBK
+            - UNIT
+            - PRODUCT_TYPE
+            - MMO_URL
+            - EAN
+        value:
+          type: string
+          nullable: false
+    ConstraintViolationDTO:
+      properties:
+        constraint:
+          type: string
+          enum:
+            - PBK_MUST_BE_KNOWN
+            - COLUMN_SHOULD_BE_KNOWN
+            - FEATURE_IS_REQUIRED
+            - FEATURE_IS_RECOMMENDED
+            - FEATURE_UNIT_HAS_TO_MATCH
+            - FEATURE_VALUE_MUST_BE_SEPARATED_CORRECTLY
+            - FEATURE_VALUE_MUST_BE_BOOLEAN
+            - FEATURE_VALUE_MUST_BE_BOOLEAN_MULTIVALUE
+            - FEATURE_VALUE_MUST_BE_DATE
+            - FEATURE_VALUE_MUST_BE_DECIMAL
+            - FEATURE_VALUE_MUST_BE_DECIMAL_MULTIVALUE
+            - FEATURE_VALUE_MUST_BE_INTEGER
+            - FEATURE_VALUE_MUST_BE_INTEGER_MULTIVALUE
+            - FEATURE_VALUE_MUST_BE_NON_ZERO
+            - FEATURE_VALUE_MUST_BE_POSITIVE
+            - DISPLAY_EQUALS_EXTRACTED_VALUE
+            - PRODUCT_FEATURE_VALUE_MUST_BE_IDENTICAL
+            - FEATURE_VALUE_MUST_BE_VALID_VALUE
+            - PRODUCT_FEATURE_UPDATE_REQUIRES_ALL_VARIANTS
+            - PRODUCT_TYPE_MUST_BE_KNOWN
+            - SUPPLIER_MUST_BE_KNOWN
+            - SUPPLIER_MUST_BE_SUPPLIER_IDENTIFIER_BASED
+            - VARIANT_IDENTIFIER_MAY_NOT_BE_ASSOCIATED_TO_DIFFERENT_PRODUCT
+            - VARIANT_IDENTIFIER_MUST_BE_UNIQUE_IN_PRODUCT
+            - BRAND_MUST_BE_KNOWN
+            - BRAND_MUST_BE_UNAMBIGUOUS
+            - EAN_MUST_BE_VALID
+            - MMO_ROLE_AND_URL_COUNT_MUST_BE_EQUAL
+            - MMO_PROTOCOL_MUST_BE_KNOWN
+            - MMO_ROLE_MUST_BE_KNOWN
+            - MMO_FILE_TYPE_MUST_BE_KNOWN
+            - MMO_SIZE_MUST_BE_BELOW_10MB
+            - MMO_MUST_BE_ACCESSIBLE
+            - MMO_MUST_BE_AVAILABLE
+            - MMO_MUST_BE_PROCESSABLE
+            - PACKING_UNIT_MUST_BE_VALID
+            - PACKING_UNIT_ID_MUST_BE_UNIQUE
+            - SHEET_NEW_FEATURES_AVAILABLE
+            - LEGACY_PRODUCT_UPDATE_REQUIRES_ALL_VARIANTS
+            - LEGACY_VARIANT_MUST_BELONG_TO_THE_SAME_PRODUCT
+            - LEGACY_VARIANT_MUST_HAVE_EAN_FEATURE
+            - MISSING_PERMISSION_FOR_LKZ
+            - UNKNOWN
+        severity:
+          type: string
+          enum:
+            - UNKNOWN
+            - ERROR
+            - WARNING
+        violationDetails:
+          type: array
+          items:
+            $ref: '#/components/schemas/ViolationDetailDTO'
+    JobStatusDTO:
+      properties:
+        jobId:
+          type: integer
+          nullable: false
+          example: 570ece74-dd53-480b-ba9a-60935241fa76
+        processed:
+          type: integer
+          nullable: false
+          example: 1
+        total:
+          type: integer
+          nullable: false
+          example: 10
+        violations:
+          type: array
+          items:
+            $ref: '#/components/schemas/ConstraintViolationDTO'
+  responses:
+    BadRequestError:
+      description: The request didn't match the required contract
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetail'
+    UnauthorizedError:
+      description: API key is missing or invalid
+      headers:
+        WWW_Authenticate:
+          schema:
+            type: string
