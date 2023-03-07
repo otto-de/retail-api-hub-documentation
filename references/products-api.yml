@@ -4,8 +4,6 @@ info:
   description: '# OTTO Retail API Developer''s Guide'
   version: 1.0.0
 servers:
-  - url: https://retail-api-dev.otto.de
-    description: Sandbox
   - url: https://retail-api.otto.de
     description: Production
 paths:
