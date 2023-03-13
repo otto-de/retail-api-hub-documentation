@@ -97,6 +97,7 @@ paths:
           required: true
           schema:
             type: string
+            format: uuid
             description: >-
               The id of the category group that you want to query. The id can be
               obtained via the category group list endpoint.
@@ -159,6 +160,7 @@ paths:
           required: true
           schema:
             type: string
+            format: uuid
             description: >-
               The Job id in UUID format that you get after you upload one or
               several products.
@@ -192,6 +194,7 @@ components:
           format: uuid
           description: The brand id which you have to use with your product data uploads
           nullable: false
+          example: 570ece74-dd53-480b-ba9a-60935241fa76
         name:
           type: string
           nullable: false
@@ -306,6 +309,7 @@ components:
           description: >-
             The category group id which you have to use when querying the
             category group endpoint and use with your product data uploads.
+          example: 570ece74-dd53-480b-ba9a-60935241fa76
         name:
           type: string
           description: The name of the category group.
@@ -416,13 +420,6 @@ components:
           items:
             type: string
             example: FILTER, NAVIGATION, SEARCH
-        relevance:
-          description: The relevance of the attribute.
-          type: string
-          enum:
-            - LOW
-            - MEDIUM
-            - HIGH
         fieldRequirement:
           description: Describes if the attribute is mandatory, recommended or optional.
           type: string
@@ -445,6 +442,7 @@ components:
           description: >-
             The id of the category group. You will have to use this id when you
             submit your product data.
+          example: 570ece74-dd53-480b-ba9a-60935241fa76
         name:
           type: string
           nullable: false
@@ -463,6 +461,9 @@ components:
             $ref: '#/components/schemas/AttributeDTO'
     NameValuesDTO:
       type: object
+      required:
+        - name
+        - values
       properties:
         name:
           type: string
@@ -478,6 +479,10 @@ components:
           example:
             - rot
             - blau
+        unit:
+          type: string
+          description: The unit of the attribute.
+          example: cm
     PriceDTO:
       required:
         - amount
@@ -751,23 +756,14 @@ components:
           type: string
           enum:
             - PBK_MUST_BE_KNOWN
-            - COLUMN_SHOULD_BE_KNOWN
             - FEATURE_IS_REQUIRED
-            - FEATURE_IS_RECOMMENDED
             - FEATURE_UNIT_HAS_TO_MATCH
-            - FEATURE_VALUE_MUST_BE_SEPARATED_CORRECTLY
-            - FEATURE_VALUE_MUST_BE_BOOLEAN
-            - FEATURE_VALUE_MUST_BE_BOOLEAN_MULTIVALUE
-            - FEATURE_VALUE_MUST_BE_DATE
             - FEATURE_VALUE_MUST_BE_DECIMAL
-            - FEATURE_VALUE_MUST_BE_DECIMAL_MULTIVALUE
             - FEATURE_VALUE_MUST_BE_INTEGER
-            - FEATURE_VALUE_MUST_BE_INTEGER_MULTIVALUE
-            - FEATURE_VALUE_MUST_BE_NON_ZERO
             - FEATURE_VALUE_MUST_BE_POSITIVE
-            - DISPLAY_EQUALS_EXTRACTED_VALUE
-            - PRODUCT_FEATURE_VALUE_MUST_BE_IDENTICAL
+            - FEATURE_VALUE_MUST_BE_NON_ZERO
             - FEATURE_VALUE_MUST_BE_VALID_VALUE
+            - PRODUCT_FEATURE_VALUE_MUST_BE_IDENTICAL
             - PRODUCT_FEATURE_UPDATE_REQUIRES_ALL_VARIANTS
             - PRODUCT_TYPE_MUST_BE_KNOWN
             - SUPPLIER_MUST_BE_KNOWN
@@ -777,7 +773,8 @@ components:
             - BRAND_MUST_BE_KNOWN
             - BRAND_MUST_BE_UNAMBIGUOUS
             - EAN_MUST_BE_VALID
-            - MMO_ROLE_AND_URL_COUNT_MUST_BE_EQUAL
+            - EAN_MUST_BE_UNIQUE_WITHIN_LKZ
+            - MMO_URI_MUST_BE_VALID
             - MMO_PROTOCOL_MUST_BE_KNOWN
             - MMO_ROLE_MUST_BE_KNOWN
             - MMO_FILE_TYPE_MUST_BE_KNOWN
@@ -785,14 +782,15 @@ components:
             - MMO_MUST_BE_ACCESSIBLE
             - MMO_MUST_BE_AVAILABLE
             - MMO_MUST_BE_PROCESSABLE
-            - PACKING_UNIT_MUST_BE_VALID
-            - PACKING_UNIT_ID_MUST_BE_UNIQUE
-            - SHEET_NEW_FEATURES_AVAILABLE
             - LEGACY_PRODUCT_UPDATE_REQUIRES_ALL_VARIANTS
             - LEGACY_VARIANT_MUST_BELONG_TO_THE_SAME_PRODUCT
             - LEGACY_VARIANT_MUST_HAVE_EAN_FEATURE
-            - MISSING_PERMISSION_FOR_LKZ
             - UNKNOWN
+            - FEATURE_VALUE_MUST_BE_BOOLEAN
+            - FEATURE_VALUE_MUST_BE_DATE
+            - PACKING_UNIT_MUST_BE_VALID
+            - UNKNOWN_VARIANT
+            - PACKING_UNIT_ID_MUST_BE_UNIQUE
         severity:
           type: string
           enum:
@@ -806,7 +804,8 @@ components:
     JobStatusDTO:
       properties:
         jobId:
-          type: integer
+          type: string
+          format: uuid
           nullable: false
           example: 570ece74-dd53-480b-ba9a-60935241fa76
         processed:
