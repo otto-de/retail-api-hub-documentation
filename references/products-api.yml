@@ -1,7 +1,9 @@
 openapi: 3.0.3
 info:
   title: Otto Retail Products API
-  description: '# OTTO Retail API Developer''s Guide'
+  description: |-
+    # OTTO Retail Products API Developer's Guide
+    This specification describes the OTTO Retail Products API.
   version: 1.0.0
 servers:
   - url: https://retail-api.otto.de
@@ -40,8 +42,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/BrandResponse'
-        '400':
-          $ref: '#/components/responses/BadRequestError'
         '401':
           $ref: '#/components/responses/UnauthorizedError'
         '403':
@@ -128,7 +128,7 @@ paths:
     post:
       summary: Create or update product variations
       description: >-
-        Endpoint to create or update product variations. Returns a process id to
+        Endpoint to create or update product variations. Returns a jobId to
         query results.
       requestBody:
         required: true
@@ -162,9 +162,12 @@ paths:
             type: string
             format: uuid
             description: >-
-              The Job id in UUID format that you get after you upload one or
+              The jobId in UUID format that you get after you upload one or
               several products.
       summary: Get the upload status of your products
+      description: >-
+        Returns detailed information about the requested jobId. You will receive
+        the jobId after creating or updating product variations.
       responses:
         '200':
           description: successful operation
@@ -179,10 +182,11 @@ paths:
             The technical user is not authorized to request jobs. This may be
             the case if the user does not have the necessary role.
         '404':
-          description: When we cant find a job to the given jobId
+          description: When we cannot find a job to the given jobId.
 components:
   schemas:
     BrandDTO:
+      description: A specific brand
       required:
         - id
         - name
@@ -211,7 +215,6 @@ components:
           example: true
           default: true
     LinkDTO:
-      description: A list of links that can be used for pagination.
       required:
         - rel
         - href
@@ -221,12 +224,14 @@ components:
           type: string
           nullable: false
           example: self
+          description: >-
+            Defines the type of link relationship between the current resource
+            and the resource which the link points to.
         href:
           nullable: false
           type: string
-          example: >-
-            [{ 'ref': 'self', 'href': '/products/brands?page=0&page_size=100\' }
-            ]
+          example: /products/brands?page=0&page_size=100
+          description: Defines the URL to the linked resource.
     PageDTO:
       description: Pagination information object.
       required:
@@ -240,16 +245,20 @@ components:
           type: integer
           nullable: false
           example: 5
+          description: Number of entries specified in the query.
         number:
           type: integer
+          description: The page requested.
           nullable: false
           example: 0
         totalElements:
           type: integer
+          description: Number of all entries.
           nullable: false
           example: 50
         totalPages:
           type: integer
+          description: Total number of pages.
           nullable: false
           example: 10
     BrandResponse:
@@ -260,42 +269,19 @@ components:
       type: object
       properties:
         brands:
-          description: List of brand objects
+          description: A list of brands.
           type: array
           items:
             $ref: '#/components/schemas/BrandDTO'
         _links:
+          description: A list of links that can be used for pagination.
           type: array
           items:
             $ref: '#/components/schemas/LinkDTO'
         _page:
           $ref: '#/components/schemas/PageDTO'
-    ProblemDetail:
-      type: object
-      properties:
-        type:
-          type: string
-          nullable: false
-          example: about:blank
-        title:
-          type: string
-          nullable: true
-        status:
-          type: integer
-          nullable: false
-          example: 200
-        detail:
-          type: string
-          nullable: true
-        instance:
-          type: string
-          nullable: true
-        properties:
-          type: array
-          nullable: true
-          items:
-            type: string
     CategoryGroupOverviewDTO:
+      description: A specific category group.
       required:
         - name
         - id
@@ -328,12 +314,13 @@ components:
       type: object
       properties:
         categoryGroups:
-          description: The list of category groups.
+          description: A list of category groups.
           type: array
           nullable: false
           items:
             $ref: '#/components/schemas/CategoryGroupOverviewDTO'
         _links:
+          description: A list of links that can be used for pagination.
           type: array
           nullable: false
           items:
@@ -341,6 +328,7 @@ components:
         _page:
           $ref: '#/components/schemas/PageDTO'
     AttributeDTO:
+      description: Attribute information object.
       properties:
         name:
           description: Name of the attribute
@@ -407,11 +395,11 @@ components:
         attributeLevel:
           type: string
           description: >-
-            Specifies if the attribute is specified on the variant or product
-            level (unique for all variants of the product).
+            Specifies if the attribute is specified on the variation or product
+            level (unique for all variations of the product).
           enum:
             - PRODUCT
-            - VARIANT
+            - VARIATION
         featureRelevance:
           description: >-
             Describes what the attribute can be used for and where it gets
@@ -420,7 +408,7 @@ components:
           items:
             type: string
             example: FILTER, NAVIGATION, SEARCH
-        fieldRequirement:
+        necessity:
           description: Describes if the attribute is mandatory, recommended or optional.
           type: string
           enum:
@@ -428,6 +416,7 @@ components:
             - RECOMMENDED
             - OPTIONAL
     CategoryGroupDTO:
+      description: A specific category group with its attributes.
       required:
         - id
         - name
@@ -460,6 +449,7 @@ components:
           items:
             $ref: '#/components/schemas/AttributeDTO'
     NameValuesDTO:
+      description: Attribute object.
       type: object
       required:
         - name
@@ -472,6 +462,8 @@ components:
           example: Farbe
         values:
           type: array
+          minItems: 1
+          maxItems: 500
           nullable: false
           items:
             type: string
@@ -484,9 +476,10 @@ components:
           description: The unit of the attribute.
           example: cm
     PriceDTO:
+      description: Price information object.
       required:
         - amount
-        - unit
+        - currency
       type: object
       properties:
         amount:
@@ -522,7 +515,11 @@ components:
         This container holds the attributes for the different price types and
         currency related information.
     MediaAssetDTO:
+      description: Media Asset information object.
       type: object
+      required:
+        - location
+        - type
       properties:
         location:
           nullable: false
@@ -549,6 +546,7 @@ components:
             - WARNING_LABEL
           description: The type of the provided media asset.
     PackingUnitDTO:
+      description: Packing unit information object.
       required:
         - id
         - height
@@ -597,7 +595,10 @@ components:
           type: string
           description: The description of the packing unit.
           example: Tischbeine
-    VariantDTO:
+    VariationDTO:
+      description: >-
+        Variation information object. This container holds the variation
+        information.
       required:
         - sku
         - pricing
@@ -609,14 +610,14 @@ components:
           description: >-
             Identifier for a product variation, provided by the supplier. The
             sku can be freely assigned but it must be unique within the complete
-            product catalog of a supplier. It is used as the variant key and you
-            can reference your variants using the sku.
+            product catalog of a supplier. It is used as the variation key and
+            you can reference your variations using the sku.
           example: VAR-XY-123
         ean:
           type: string
           description: >-
             The EAN (European Article Number), also known as GTIN (Global Trade
-            Item Number), is a worldwide unique article number for variants,
+            Item Number), is a worldwide unique article number for variations,
             which is assigned by GS1.
           example: 1234567890123
         pricing:
@@ -642,15 +643,18 @@ components:
           items:
             $ref: '#/components/schemas/NameValuesDTO'
           description: >-
-            Lists all the descriptive information about a variant that might be
-            individual for all the variations of your product. The object must
-            be provided in the form of key values pairs.  The list of key value
-            pairs and their configuration (data type, multiplicity, etc.) can be
-            obtained from the structure endpoint and depends on the
-            categoryGroup. All attributes with "attributeLevel"=""VARIANT" can
+            Lists all the descriptive information about a variation that might
+            be individual for all the variations of your product. The object
+            must be provided in the form of key values pairs.  The list of key
+            value pairs and their configuration (data type, multiplicity, etc.)
+            can be obtained from the structure endpoint and depends on the
+            categoryGroup. All attributes with "attributeLevel"=""VARIATION" can
             be provided in this array. All objects must be identical for all
-            variants of a product.
+            variations of a product.
     ProductDTO:
+      description: >-
+        Product information object. This container holds the product
+        information.
       type: object
       required:
         - productReference
@@ -658,7 +662,7 @@ components:
         - supplierCode
         - categoryGroupId
         - category
-        - variants
+        - variations
       properties:
         productReference:
           type: string
@@ -679,14 +683,14 @@ components:
           description: >-
             Denotes the brand ID of a product. Brands and the mapping of their
             names to brand Ids can be retrieved via the brand endpoint. Must be
-            identical for all variants of a product.
+            identical for all variations of a product.
           example: 434efd7a-499c-4d2a-9d9f-2636097a4051
         supplierCode:
           type: string
           nullable: false
           description: >-
             Denotes your supplier code that you have received from Otto to
-            identify your company. Must be identical for all variants of a
+            identify your company. Must be identical for all variations of a
             product.
           example: '12345'
         categoryGroupId:
@@ -697,14 +701,14 @@ components:
             Denotes the id of the assortment group (like 'Fernseher' or
             'T-shirt') of the product. The list of allowed categoryGroupId's can
             be retrieved via the structure endpoint. Must be identical for all
-            variants of a product.
+            variations of a product.
           example: b2e03856-e99f-475a-9d97-d4be8ed15d7e
         category:
           type: string
           nullable: false
           description: >-
             Denotes the assortment type of the product (like "OLED-Fernseher").
-            Must be identical for all variants of a product.
+            Must be identical for all variations of a product.
           example: OLED-Fernseher
         productAttributes:
           type: array
@@ -718,115 +722,201 @@ components:
             obtained from the structure endpoint and depends on the
             categoryGroup. All attributes with "attributeLevel"="PRODUCT" can be
             provided in this array. All objects must be identical for all
-            variants of a product.
-        variants:
+            variations of a product.
+        variations:
           type: array
           nullable: false
+          minItems: 1
+          maxItems: 500
           items:
-            $ref: '#/components/schemas/VariantDTO'
-          description: Lists all the variants of the product.
+            $ref: '#/components/schemas/VariationDTO'
+          description: Lists all the variations of the product.
     ProductListDTO:
       type: array
       items:
         $ref: '#/components/schemas/ProductDTO'
     ViolationDetailDTO:
+      description: Violation detail information object.
       properties:
         detail:
+          description: Detailed error information.
           type: string
           nullable: false
           enum:
-            - UNKNOWN
-            - VARIANT_IDENTIFIER
-            - PRODUCT_IDENTIFIER
-            - LKZ
-            - BRAND
-            - BRAND_OPTIONS
-            - FEATURE
-            - PBK
+            - SUPPLIER_CODE
+            - BRAND_ID
+            - ATTRIBUTE
+            - CATEGORY
             - UNIT
-            - PRODUCT_TYPE
-            - MMO_URL
+            - CATEGORY_GROUP_ID
+            - MEDIA_ASSET_URL
             - EAN
+            - UNKNOWN
         value:
+          description: The value of the corresponding detail.
           type: string
           nullable: false
     ConstraintViolationDTO:
+      description: Constraint violation information object.
       properties:
-        constraint:
+        title:
+          description: A short description of the error code.
+          type: string
+          example: The provided value is not valid
+        code:
+          description: The error code.
           type: string
           enum:
-            - PBK_MUST_BE_KNOWN
-            - FEATURE_IS_REQUIRED
-            - FEATURE_UNIT_HAS_TO_MATCH
-            - FEATURE_VALUE_MUST_BE_DECIMAL
-            - FEATURE_VALUE_MUST_BE_INTEGER
-            - FEATURE_VALUE_MUST_BE_POSITIVE
-            - FEATURE_VALUE_MUST_BE_NON_ZERO
-            - FEATURE_VALUE_MUST_BE_VALID_VALUE
-            - PRODUCT_FEATURE_VALUE_MUST_BE_IDENTICAL
-            - PRODUCT_FEATURE_UPDATE_REQUIRES_ALL_VARIANTS
-            - PRODUCT_TYPE_MUST_BE_KNOWN
-            - SUPPLIER_MUST_BE_KNOWN
-            - SUPPLIER_MUST_BE_SUPPLIER_IDENTIFIER_BASED
-            - VARIANT_IDENTIFIER_MAY_NOT_BE_ASSOCIATED_TO_DIFFERENT_PRODUCT
-            - VARIANT_IDENTIFIER_MUST_BE_UNIQUE_IN_PRODUCT
-            - BRAND_MUST_BE_KNOWN
-            - BRAND_MUST_BE_UNAMBIGUOUS
-            - EAN_MUST_BE_VALID
-            - EAN_MUST_BE_UNIQUE_WITHIN_LKZ
-            - MMO_URI_MUST_BE_VALID
-            - MMO_PROTOCOL_MUST_BE_KNOWN
-            - MMO_ROLE_MUST_BE_KNOWN
-            - MMO_FILE_TYPE_MUST_BE_KNOWN
-            - MMO_SIZE_MUST_BE_BELOW_10MB
-            - MMO_MUST_BE_ACCESSIBLE
-            - MMO_MUST_BE_AVAILABLE
-            - MMO_MUST_BE_PROCESSABLE
-            - LEGACY_PRODUCT_UPDATE_REQUIRES_ALL_VARIANTS
-            - LEGACY_VARIANT_MUST_BELONG_TO_THE_SAME_PRODUCT
-            - LEGACY_VARIANT_MUST_HAVE_EAN_FEATURE
+            - BRAND_ID_IS_UNKNOWN
+            - ATTRIBUTE_IS_UNKNOWN
+            - EAN_IS_NOT_UNIQUE_WITHIN_SUPPLIER_CODE
+            - EAN_IS_INVALID
+            - RECOMMENDED_ATTRIBUTE_IS_MISSING
+            - ATTRIBUTE_UNIT_IS_INVALID
+            - ATTRIBUTE_VALUE_IS_NOT_BOOLEAN
+            - ATTRIBUTE_VALUE_IS_NOT_DATE
+            - ATTRIBUTE_VALUE_IS_NOT_DECIMAL
+            - ATTRIBUTE_VALUE_IS_NOT_INTEGER
+            - ATTRIBUTE_VALUE_IS_ZERO
+            - ATTRIBUTE_VALUE_IS_NOT_POSITIVE
+            - ATTRIBUTE_VALUE_IS_INVALID
+            - LEGACY_PRODUCT_UPDATE_REQUIRES_ALL_VARIATIONS
+            - LEGACY_SKU_IS_ASSOCIATED_TO_DIFFERENT_PRODUCT
+            - LEGACY_SKU_EAN_IS_MISSING
+            - PERMISSION_IS_MISSING_FOR_SUPPLIER_CODE
+            - MEDIA_ASSET_FILE_TYPE_IS_NOT_SUPPORTED
+            - MEDIA_ASSET_IS_NOT_ACCESSIBLE
+            - MEDIA_ASSET_IS_NOT_AVAILABLE
+            - MEDIA_ASSET_IS_NOT_PROCESSABLE
+            - MEDIA_ASSET_PROTOCOL_IS_UNKNOWN
+            - MEDIA_ASSET_TYPE_IS_NOT_SUPPORTED
+            - MEDIA_ASSET_SIZE_EXCEEDS_LIMIT
+            - MEDIA_ASSET_URI_IS_INVALID
+            - PACKING_UNIT_ID_IS_NOT_UNIQUE
+            - CATEGORY_GROUP_ID_IS_UNKNOWN
+            - MISSING_VARIATION_TO_UPDATE_PRODUCT_ATTRIBUTE
+            - CATEGORY_IS_UNKNOWN
+            - SUPPLIER_CODE_IS_UNKNOWN
+            - SUPPLIER_CODE_IS_NOT_AUTHORIZED
+            - SKU_IS_ASSOCIATED_TO_DIFFERENT_PRODUCT
+            - SKU_IS_NOT_UNIQUE_IN_PRODUCT
+            - ATTRIBUTE_LEVEL_IS_INVALID
             - UNKNOWN
-            - FEATURE_VALUE_MUST_BE_BOOLEAN
-            - FEATURE_VALUE_MUST_BE_DATE
-            - PACKING_UNIT_MUST_BE_VALID
-            - UNKNOWN_VARIANT
-            - PACKING_UNIT_ID_MUST_BE_UNIQUE
-        severity:
-          type: string
-          enum:
-            - UNKNOWN
-            - ERROR
-            - WARNING
-        violationDetails:
+        details:
+          description: Further details concerning the error code.
           type: array
           items:
             $ref: '#/components/schemas/ViolationDetailDTO'
+    VariationResponseDTO:
+      description: Variation response object.
+      required:
+        - sku
+        - status
+        - errors
+        - warnings
+        - infos
+      properties:
+        sku:
+          description: The affected sku.
+          type: string
+          nullable: false
+          example: VAR-XY-123
+        status:
+          description: The status of the variation.
+          type: string
+          nullable: false
+          enum:
+            - ACCEPTED
+            - NOT_ACCEPTED
+            - IN_PROGRESS
+        errors:
+          description: This container contains the errors that have occurred.
+          type: array
+          items:
+            $ref: '#/components/schemas/ConstraintViolationDTO'
+        warnings:
+          description: This container contains the warnings that have occurred.
+          type: array
+          items:
+            $ref: '#/components/schemas/ConstraintViolationDTO'
+        infos:
+          description: This container contains other notable information.
+          type: array
+          items:
+            $ref: '#/components/schemas/ConstraintViolationDTO'
+    ProductResponseDTO:
+      description: Product response object.
+      required:
+        - productReference
+        - status
+        - errors
+        - warnings
+        - infos
+        - variations
+      properties:
+        productReference:
+          description: The affected product reference.
+          type: string
+          nullable: false
+          example: DQU16
+        status:
+          description: The status of the product.
+          type: string
+          nullable: false
+          enum:
+            - ACCEPTED
+            - PARTIALLY_ACCEPTED
+            - NOT_ACCEPTED
+            - IN_PROGRESS
+        errors:
+          description: This container contains the errors that have occurred.
+          type: array
+          items:
+            $ref: '#/components/schemas/ConstraintViolationDTO'
+        warnings:
+          description: This container contains the warnings that have occurred.
+          type: array
+          items:
+            $ref: '#/components/schemas/ConstraintViolationDTO'
+        infos:
+          description: This container contains other notable information.
+          type: array
+          items:
+            $ref: '#/components/schemas/ConstraintViolationDTO'
+        variations:
+          description: >-
+            This container holds the response information for each variation
+            transmitted.
+          type: array
+          items:
+            $ref: '#/components/schemas/VariationResponseDTO'
     JobStatusDTO:
+      description: Job status response information object.
       properties:
         jobId:
+          description: The jobId for the product data transmission.
           type: string
           format: uuid
           nullable: false
           example: 570ece74-dd53-480b-ba9a-60935241fa76
         processed:
+          description: Number of processed products.
           type: integer
           nullable: false
           example: 1
         total:
+          description: Total number of products sent.
           type: integer
           nullable: false
           example: 10
-        violations:
+        products:
+          description: >-
+            This container holds the response information for each product
+            transmitted.
           type: array
           items:
-            $ref: '#/components/schemas/ConstraintViolationDTO'
+            $ref: '#/components/schemas/ProductResponseDTO'
   responses:
-    BadRequestError:
-      description: The request didn't match the required contract
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ProblemDetail'
     UnauthorizedError:
       description: API key is missing or invalid
       headers:
