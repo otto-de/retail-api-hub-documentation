@@ -11,7 +11,7 @@ If you are a registered supplier, log into your OTTO Supplier Connect account an
 Once your request has been processed, you will receive a client ID and client secret, both of which are required for authentication.
 
 If you have any questions, comments or require assistance, please don't hesitate to contact us and we will get back to you as soon as possible.
-As a registered supplier, open a new ticket in OTTO Supplier Connect via the Helpdesk and select the subcategory "Weitere Schnittstellen".
+As a registered supplier, open a new ticket in OTTO Supplier Connect via the Helpdesk and select the subcategory "Retail-API".
 
 Before you start the implementation, please read the [Getting Started](01_getting-started) guide.
 
