@@ -15,7 +15,7 @@ Use the present tense and start the title description with a verb.
 
 
 ## Documentation styleguide
- - Use [GitHub-flavored markdown](https://github.com/microsoft/api-guidelines/blob/vNext/CONTRIBUTING.md#pull-requests:~:text=GitHub%2Dflavored%20markdown)
+ - Use [GitHub-flavored markdown](https://docs.github.com/de/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#GitHub-flavored-markdown)
  - Use syntax-highlighted examples liberally
  - Write one sentence per line
 
