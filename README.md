@@ -1,8 +1,8 @@
 # OTTO Retail-API
 
 Latest published version:
-[**PDF**](https://github.com/otto-de/retail-api-hub-documentation/releases/download/v1.0.0/otto-retail-api-guidelines.pdf)
-[**HTML**](https://github.com/otto-de/retail-api-hub-documentation/releases/download/v1.0.0/otto-retail-api-guidelines.html)
+[**PDF**](https://github.com/otto-de/retail-api-hub-documentation/releases/download/v1.0.1/otto-retail-api-guidelines.pdf)
+[**HTML**](https://github.com/otto-de/retail-api-hub-documentation/releases/download/v1.0.1/otto-retail-api-guidelines.html)
 
 ### Getting access
 
