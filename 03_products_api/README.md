@@ -1,4 +1,4 @@
-# OTTO Retail-API specifications
+# OTTO Retail-API - products API specifications
 
 At the moment our API is in a beta version. This means that - although the API is already in a very advanced and stable state - there is still the possibility that different elements of the API might change (path, parameters, return objects etc.) as we are learning from the feedback of our early adaptors. We welcome explicitly early adaptors at this point.
 
@@ -12,9 +12,12 @@ Please note that articles where you need to specify material composition such as
 
 ### Change Log
 
-| *Date* | *Classification* | *Description* |
-| 2023-06-02 | Documentation | Intial Version of documentation |
-| 2023-06-02 | New Version | Initial Version of the api has been released. |
+
+| Date          | Classification    | Description                                   |
+| ------------- | ----------------- | --------------------------------------------- |
+| 2023-06-02    | Documentation     | Initial Version of documentation              |
+| 2023-06-02    | New Version       | Initial Version of the api has been released. |
+
 
 ## Implementing the products API
 
@@ -36,7 +39,7 @@ The API as well as the metadata (brands, category groups, ..) that you can retri
 
 ### Authentication
 
-The information about the authentication can be found [here](../01_getting-started/02_authentication.md)
+The information about the authentication can be found [here](../01_getting-started/01_authentication.md)
 
 ## Preparation of product data transfer
 

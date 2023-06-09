@@ -16,13 +16,17 @@ Before you start the implementation, please read the [Getting Started guide](01_
 
 ### Implementing the API
 
-To implement the API we offer a sandbox environment which you can use to develop and test the API access. As a first step, please request a client for the sandbox environment. Once you have successfully submitted your data in the sandbox environment please request the client for production use in order to submit your data to OTTO.
+To implement the API we offer a sandbox environment which you can use to develop and test the API access. 
+As a first step, please request a client for the sandbox environment. 
+Once you have successfully submitted your data in the sandbox environment please request the client for production use in order to submit your data to OTTO.
 
-To implement the API you find all the necessary information in the detailed API Guide: [About the API](04_products_api)
+#### Products API
+
+To implement the Retail-API products API you find all the necessary information in the detailed API Guide: [Products API](03_products_api)
 
 ### Further information
 
-Further general information can be found in the [OTTO API Guidelines](03_api_guidelines/000_index.md) and [About the API](02_about-the-api).
+Further general information can be found in [about the API](02_about-the-api) and the [OTTO API Guidelines](https://github.com/otto-de/api-guidelines/tree/main).
 
 ### This repository
 This repository contains a collection of documents and related materials for the implementation of the OTTO Retail-API.
