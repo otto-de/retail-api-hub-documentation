@@ -1,0 +1,538 @@
+[
+    {
+        "productReference": "{{productReference1}}",
+        "brandId": "406c8010-7f4e-3ea7-b06f-9dfe741512f6",
+        "supplierCode": "10000",
+        "categoryGroupId": "6129949a-b56c-3e7d-8b7a-c94627afdd65",
+        "category": "Trekkingschuh",
+        "attributes": [
+            {
+                "name": "Marketingtext SEO",
+                "values": [
+                    "Dieser Schuh vereinbart Tragekomfort mit maximaler Wasserdichtheit."
+                ]
+            },
+            {
+                "name": "Besondere Merkmale", 
+                "values": [
+                    "Wasserdicht"
+                ]
+            },
+            {
+                "name": "Set-Typ", 
+                "values": [
+                    "Packung"
+                ]
+            },
+            {
+                "name": "Anzahl Teile", 
+                "values": [
+                    "1"
+                ],
+                "unit": "tlg."
+            },
+            {
+                "name": "Geschlecht", 
+                "values": [
+                    "Neutral"
+                ]
+            },    
+            {
+                "name": "Anzahl Akkus", 
+                "values": [
+                    "0"
+                ],
+                "unit" : "St."
+            },    
+            {
+                "name": "Set-Info", 
+                "values": [
+                    "Teil 1",
+                    "Teil 2"
+                ]
+            },      
+            {
+                "name": "Anzahl Batterien", 
+                "values": [
+                    "1"
+                ],
+                "unit" : "St."
+            },    
+            {
+                "name": "Zielgruppe", 
+                "values": [
+                    "Erwachsene",
+                    "Jugendliche"
+                ]
+            },    
+    	    {
+                "name": "Selling Point 1", 
+                "values": [
+                    "wasserdicht"
+                ]
+            },   
+            {
+                "name": "Selling Point 2", 
+                "values": [
+                    "super bequem"
+                ]
+            },   
+            {
+                "name": "Selling Point 3", 
+                "values": [
+                    "langlebig"
+                ]
+            }, 
+            {
+                "name": "Selling Point 4", 
+                "values": [
+                    "tolles Design"
+                ]
+            },
+            {
+                "name": "Katalogtext", 
+                "values": [
+                    "Dieser Schuh vereinbart Tragekomfort mit maximaler Wasserdichtheit."
+                ]
+            }
+        ],
+        "variations": [
+            {
+                "sku": "{{sku1}}",
+                "ean": "{{ean1}}",
+                "pricing": {
+                    "purchasingPrice": {
+                        "amount": "79.99",
+                        "currency": "EUR"
+                    },
+                    "msrp": {
+                        "amount": "99.99",
+                        "currency": "EUR"
+                    }
+                },
+                "packingUnits": [
+					{
+						"id": "PUID1",
+						"height": "10.00",
+						"width": "10.00",
+						"length": "10.00",
+						"weight": "10.00",
+						"description": "Packstück 1"
+					},
+					{
+						"id": "PUID2",
+						"height": "10.00",
+						"width": "10.00",
+						"length": "10.00",
+						"weight": "10.00",
+						"description": "Packstück 2"
+					}
+				],
+                "mediaAssets": [
+					{
+						"location": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Otto_GmbH_logo.svg/640px-Otto_GmbH_logo.svg.png",
+						"type": "IMAGE"
+					},
+                    {
+						"location": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/Otto_Group_Logo_2022.svg/2560px-Otto_Group_Logo_2022.svg.png",
+						"type": "IMAGE"
+					}
+				],
+				"attributes": [
+					{
+						"name": "Farbe",
+						"values": [
+							"rot"
+						]
+					},
+                    {
+						"name": "Grundfarbe",
+						"values": [
+							"rot"
+						]
+					},
+                    {
+						"name": "Verkaufseinheitsmenge",
+						"values": [
+							"2"
+						]
+					},
+                    {
+						"name": "Absatzhöhe",
+						"values": [
+							"2.5"
+						],
+                        "unit":"cm"
+					},
+                    {
+						"name": "Bestandsintegration",
+						"values": [
+							"false"
+						]
+					},
+                    {
+						"name": "Ausgabegröße",
+						"values": [
+							"40"
+						]
+					},
+				    {
+						"name": "Anzahl Elektroschrottteile",
+						"values": [
+							"0"
+						]
+					},
+                    {
+						"name": "Nettogewicht des Elektrogerätes",
+						"values": [
+							"0"
+						],
+                        "unit" : "kg"
+					},
+                    {
+						"name": "Schaftweite",
+						"values": [
+							"10"
+						]
+					},
+                    {
+						"name": "Verpackungsart",
+						"values": [
+							"Normkarton"
+						]
+					},              
+                    {
+						"name": "Verkaufseinheit",
+						"values": [
+							"Paar"
+						]
+					}
+                ]
+            },
+            {
+                "sku": "{{sku2}}",
+                "ean": "{{ean2}}",
+                "pricing": {
+                    "purchasingPrice": {
+                        "amount": "79.99",
+                        "currency": "EUR"
+                    },
+                    "msrp": {
+                        "amount": "99.99",
+                        "currency": "EUR"
+                    }
+                },
+                "packingUnits": [
+					{
+						"id": "PUID1",
+						"height": "10.00",
+						"width": "10.00",
+						"length": "10.00",
+						"weight": "10.00",
+						"description": "Packstück 1"
+					},
+					{
+						"id": "PUID2",
+						"height": "10.00",
+						"width": "10.00",
+						"length": "10.00",
+						"weight": "10.00",
+						"description": "Packstück 2"
+					}
+				],
+                "mediaAssets": [
+					{
+						"location": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Otto_GmbH_logo.svg/640px-Otto_GmbH_logo.svg.png",
+						"type": "IMAGE"
+					},
+                    {
+						"location": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/Otto_Group_Logo_2022.svg/2560px-Otto_Group_Logo_2022.svg.png",
+						"type": "IMAGE"
+					}
+				],
+				"attributes": [
+					{
+						"name": "Farbe",
+						"values": [
+							"rot"
+						]
+					},
+                    {
+						"name": "Grundfarbe",
+						"values": [
+							"rot"
+						]
+					},
+                    {
+						"name": "Verkaufseinheitsmenge",
+						"values": [
+							"2"
+						]
+					},
+                    {
+						"name": "Absatzhöhe",
+						"values": [
+							"2.5"
+						],
+                        "unit":"cm"
+					},
+                    {
+						"name": "Bestandsintegration",
+						"values": [
+							"false"
+						]
+					},
+                    {
+						"name": "Ausgabegröße",
+						"values": [
+							"40"
+						]
+					},
+				    {
+						"name": "Anzahl Elektroschrottteile",
+						"values": [
+							"0"
+						]
+					},
+                    {
+						"name": "Nettogewicht des Elektrogerätes",
+						"values": [
+							"0"
+						],
+                        "unit" : "kg"
+					},
+                    {
+						"name": "Schaftweite",
+						"values": [
+							"10"
+						]
+					},
+                    {
+						"name": "Verpackungsart",
+						"values": [
+							"Normkarton"
+						]
+					},              
+                    {
+						"name": "Verkaufseinheit",
+						"values": [
+							"Paar"
+						]
+					}
+                ]
+            }
+        ]
+    },
+    {
+        "productReference": "{{productReference2}}",
+        "brandId": "406c8010-7f4e-3ea7-b06f-9dfe741512f6",
+        "supplierCode": "10000",
+        "categoryGroupId": "6129949a-b56c-3e7d-8b7a-c94627afdd65",
+        "category": "Trekkingschuh",
+        "attributes": [
+            {
+                "name": "Marketingtext SEO",
+                "values": [
+                    "Dieser Schuh vereinbart Tragekomfort mit maximaler Wasserdichtheit."
+                ]
+            },
+            {
+                "name": "Besondere Merkmale", 
+                "values": [
+                    "Wasserdicht"
+                ]
+            },
+            {
+                "name": "Set-Typ", 
+                "values": [
+                    "Packung"
+                ]
+            },
+            {
+                "name": "Anzahl Teile", 
+                "values": [
+                    "1"
+                ],
+                "unit": "tlg."
+            },
+            {
+                "name": "Geschlecht", 
+                "values": [
+                    "Neutral"
+                ]
+            },    
+            {
+                "name": "Anzahl Akkus", 
+                "values": [
+                    "0"
+                ],
+                "unit" : "St."
+            },    
+            {
+                "name": "Set-Info", 
+                "values": [
+                    "Teil 1",
+                    "Teil 2"
+                ]
+            },      
+            {
+                "name": "Anzahl Batterien", 
+                "values": [
+                    "1"
+                ],
+                "unit" : "St."
+            },    
+            {
+                "name": "Zielgruppe", 
+                "values": [
+                    "Erwachsene",
+                    "Jugendliche"
+                ]
+            },    
+    	    {
+                "name": "Selling Point 1", 
+                "values": [
+                    "wasserdicht"
+                ]
+            },   
+            {
+                "name": "Selling Point 2", 
+                "values": [
+                    "super bequem"
+                ]
+            },   
+            {
+                "name": "Selling Point 3", 
+                "values": [
+                    "langlebig"
+                ]
+            }, 
+            {
+                "name": "Selling Point 4", 
+                "values": [
+                    "tolles Design"
+                ]
+            },
+            {
+                "name": "Katalogtext", 
+                "values": [
+                    "Dieser Schuh vereinbart Tragekomfort mit maximaler Wasserdichtheit."
+                ]
+            }
+        ],
+        "variations": [
+            {
+                "sku": "{{sku3}}",
+                "ean": "{{ean3}}",
+                "pricing": {
+                    "purchasingPrice": {
+                        "amount": "79.99",
+                        "currency": "EUR"
+                    },
+                    "msrp": {
+                        "amount": "99.99",
+                        "currency": "EUR"
+                    }
+                },
+                "packingUnits": [
+					{
+						"id": "PUID1",
+						"height": "10.00",
+						"width": "10.00",
+						"length": "10.00",
+						"weight": "10.00",
+						"description": "Packstück 1"
+					},
+					{
+						"id": "PUID2",
+						"height": "10.00",
+						"width": "10.00",
+						"length": "10.00",
+						"weight": "10.00",
+						"description": "Packstück 2"
+					}
+				],
+                "mediaAssets": [
+					{
+						"location": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Otto_GmbH_logo.svg/640px-Otto_GmbH_logo.svg.png",
+						"type": "IMAGE"
+					},
+                    {
+						"location": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/Otto_Group_Logo_2022.svg/2560px-Otto_Group_Logo_2022.svg.png",
+						"type": "IMAGE"
+					}
+				],
+				"attributes": [
+					{
+						"name": "Farbe",
+						"values": [
+							"rot"
+						]
+					},
+                    {
+						"name": "Grundfarbe",
+						"values": [
+							"rot"
+						]
+					},
+                    {
+						"name": "Verkaufseinheitsmenge",
+						"values": [
+							"2"
+						]
+					},
+                    {
+						"name": "Absatzhöhe",
+						"values": [
+							"2.5"
+						],
+                        "unit":"cm"
+					},
+                    {
+						"name": "Bestandsintegration",
+						"values": [
+							"false"
+						]
+					},
+                    {
+						"name": "Ausgabegröße",
+						"values": [
+							"40"
+						]
+					},
+				    {
+						"name": "Anzahl Elektroschrottteile",
+						"values": [
+							"0"
+						]
+					},
+                    {
+						"name": "Nettogewicht des Elektrogerätes",
+						"values": [
+							"0"
+						],
+                        "unit" : "kg"
+					},
+                    {
+						"name": "Schaftweite",
+						"values": [
+							"10"
+						]
+					},
+                    {
+						"name": "Verpackungsart",
+						"values": [
+							"Normkarton"
+						]
+					},              
+                    {
+						"name": "Verkaufseinheit",
+						"values": [
+							"Paar"
+						]
+					}
+                ]
+            }
+        ]
+    }
+]
