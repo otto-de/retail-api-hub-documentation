@@ -12,4 +12,4 @@ In order to use the example, you will have to replace the
 
 Please take into account that the ids and eans must be unique. If want to submit the example several times you will therefore need to choose/exchange these ids for each submission (unless you want to try out an update of the product/variations).
 
-You can find the example JSON [here][exmple-product.json].
+You can find the example JSON [here](example-product.json).
