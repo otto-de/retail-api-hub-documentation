@@ -32,7 +32,7 @@ The YAML specification of the products API can be found [here](products-api.yml)
 
 ### Environments
 
-We offer a sandbox and a production environment for our API. Please request a client for the sandbox environment and implement and test the API in the sandbox environment BEFORE requesting and using the API in the production environment. The client for the production environment will only be provided when you have successfully submitted data in the sandbox environment. More information about the different environments can be found [here](../01_getting-started/README.md)
+We offer a sandbox and a production environment for our API. Please request a client for the sandbox environment and implement and test the API in the sandbox environment BEFORE requesting and using the API in the production environment. The client for the production environment will only be provided when you have successfully submitted data in the sandbox environment. More information about the different environments can be found [here](../01_getting-started/README.md).
 
 The API as well as the metadata (brands, category groups, ..) that you can retrieve via the API endpoint is identical for both environments, however your submitted product data in the sandbox environments will be deleted after 30 days as this is used only for testing the API.
 
@@ -141,8 +141,8 @@ Please take into account the following guidelines when updating your products:
 
 ## Example
 
-You can find a working example of a product submission JSON [here](API_samples.md).
+You can find a working example of a product submission JSON [here](api-samples.md).
 
 ## Error handling
 
-The list of errors, warnings and infos that are given by the API can be found [here](API_error_codes.md).
+The list of errors, warnings and infos that are given by the API can be found [here](api-error-codes.md).

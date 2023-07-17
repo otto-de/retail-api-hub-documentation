@@ -5,6 +5,7 @@ You can find the list of error codes below.
 ### Change Log
 
 | *Date* | *Classification* | *Description* |
+| ------ | ----------- |----------- |
 | 2023-06-22 | Documentation | Minor changes in documentation |
 | 2023-06-02 | Documentation | Intial Version of error codes list |
 
@@ -17,6 +18,7 @@ You can find the list of error codes below.
 ## List of error codes
 
 | code | severity | level | description |
+| ------ | ----------- |----------- |---------|
 | ATTRIBUTE_IS_UNKNOWN | warning | product / variant | The transmitted attribute is not known. Please only submit attributes that belong to the category group. |
 | ATTRIBUTE_LEVEL_IS_INVALID | warning | product / variant | The level at which the attribute was sent is not correct. Either a product attribute was sent at variation level or a variation attribute was sent at product level. Please check and correct the attribute level and resubmit the product data. |
 | ATTRIBUTE_UNIT_IS_INVALID | warning | product / variant | The unit of the attribute is invalid. Please check the unit of the attribute and submit the product data again with correct unit. |
