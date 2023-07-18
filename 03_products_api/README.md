@@ -38,7 +38,7 @@ The API as well as the metadata (brands, category groups, ..) that you can retri
 
 ### Authentication
 
-The information about the authentication can be found [here](../01_getting-started/02_authentication.md).
+The information about the authentication can be found [here](../01_getting-started/01_authentication.md).
 
 ## Preparation of product data transfer
 
