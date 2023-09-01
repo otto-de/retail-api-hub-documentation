@@ -6,6 +6,8 @@ info:
     This specification describes the OTTO Retail Products API.
   version: 1.0.0
 servers:
+  - url: https://retail-api-sandbox.otto.de
+    description: Sandbox
   - url: https://retail-api.otto.de
     description: Production
 paths:
@@ -26,6 +28,7 @@ paths:
             description: The number of brands returned per page.
             default: 100
             minimum: 10
+            maximum: 1000
       summary: List of allowed brands
       description: >-
         Read the list of brands. The list of brands will be paginated. Brands
@@ -68,7 +71,8 @@ paths:
             description: The number of categories per page
             default: 100
             minimum: 10
-      summary: Get an overview of all available Product Category Groups
+            maximum: 1000
+      summary: Get an overview of all available product category groups
       description: >-
         Returns the list of possible category groups. Generally the resulting
         product categories values will be paginated. The default page length is
@@ -102,12 +106,12 @@ paths:
               The id of the category group that you want to query. The id can be
               obtained via the category group list endpoint.
       summary: >-
-        Get a specific Product category group based on the product category
+        Get a specific product category group based on the product category
         group id
       description: >-
         Returns the details of the requested category group. The id of the
         category group can be obtained via the category group list endpoint (Get
-        an overview of all available Product Category Groups).
+        an overview of all available product category groups).
       responses:
         '200':
           description: successful operation
@@ -123,7 +127,7 @@ paths:
             group. This may be the case, if the user does not have the necessary
             role.
         '404':
-          description: We cannot find a product category group for the provided id.
+          description: A product category group with the given id cannot be found.
   /products:
     post:
       summary: Create or update product variations
@@ -137,14 +141,14 @@ paths:
             schema:
               $ref: '#/components/schemas/ProductListDTO'
       responses:
-        '201':
+        '200':
           description: Job created. The upload and validation process can take a while.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/JobStatusDTO'
         '400':
-          description: Validation failed
+          description: The request body is no valid JSON document
         '401':
           $ref: '#/components/responses/UnauthorizedError'
         '403':
@@ -182,7 +186,7 @@ paths:
             The technical user is not authorized to request jobs. This may be
             the case if the user does not have the necessary role.
         '404':
-          description: When we cannot find a job to the given jobId.
+          description: A job with the given jobId cannot be found.
 components:
   schemas:
     BrandDTO:
@@ -205,7 +209,7 @@ components:
           description: >-
             The name of the brand. Use this name to find the brand of your
             products in the list of available brands
-          example: Adidas
+          example: Example Brand
         usable:
           type: boolean
           nullable: false
@@ -230,7 +234,7 @@ components:
         href:
           nullable: false
           type: string
-          example: /products/brands?page=0&page_size=100
+          example: /products?page=0&page_size=100
           description: Defines the URL to the linked resource.
     PageDTO:
       description: Pagination information object.
@@ -295,17 +299,20 @@ components:
           description: >-
             The category group id which you have to use when querying the
             category group endpoint and use with your product data uploads.
-          example: 570ece74-dd53-480b-ba9a-60935241fa76
+          example: 246273a7-5288-3537-bc4f-7ba80cc3d929
         name:
           type: string
           description: The name of the category group.
           nullable: false
-          example: 23_1_Schuhe
+          example: Fotokameras
         categories:
           description: The list of the contained categories within this category group.
           type: array
           items:
             type: string
+          example:
+            - Kompaktkamera
+            - Systemkamera
     ProductCategoryGroupsResponse:
       required:
         - categoryGroups
@@ -334,39 +341,45 @@ components:
           description: Name of the attribute
           type: string
           nullable: false
-          example: Absatzart
+          example: Anzahl Serienbilder pro Sekunde
         description:
           description: Description of the attribute
           type: string
           nullable: true
+          example: >-
+            Die Anzahl an Bildern pro Sekunde, die als Serie aufgenommen werden
+            können.
         attributeGroup:
           type: string
           nullable: false
           description: Attributes can be clustered, e.g. disposition, pricing, etc.
-          example: Details
+          example: Kamerafunktionen
         type:
           description: >-
             Defines the format of the attribute value, such as string, integer,
             etc.
           enum:
-            - FLOAT
+            - DECIMAL
             - STRING
             - INTEGER
+            - DATE
+            - BOOLEAN
           type: string
           nullable: true
-          example: String
+          example: DECIMAL
         unit:
           description: >-
             Unit of the attribute. The values must be submitted in this
-            specified unit.
+            specified unit. If the unit is not null, it has to be submitted as
+            well.
           type: string
           nullable: true
-          example: kg
+          example: BpS
         unitDisplayName:
           description: Unit display name of the attribute
           type: string
           nullable: false
-          example: Float
+          example: Bilder pro Sekunde
         multiValue:
           type: boolean
           description: >-
@@ -374,24 +387,24 @@ components:
             attribute (polyvalence attribute); otherwise, only a single value
             may be transferred for this attribute.
           nullable: false
-          example: true
+          example: false
         allowedValues:
           type: array
           description: Only the listed values are permitted for the attribute.
           items:
             type: string
           example:
-            - Blockabsatz
-            - Keilabsatz
-            - Plateauabsatz
-            - Stilettoabsatz
+            - '1'
+            - 2,5
+            - 4,2
+            - '40'
         exampleValues:
           description: Example values for the attribute.
           type: array
           items:
             type: string
           example:
-            - '3.0'
+            - 4,2
         attributeLevel:
           type: string
           description: >-
@@ -400,6 +413,7 @@ components:
           enum:
             - PRODUCT
             - VARIATION
+          example: PRODUCT
         featureRelevance:
           description: >-
             Describes what the attribute can be used for and where it gets
@@ -415,6 +429,7 @@ components:
             - MANDATORY
             - RECOMMENDED
             - OPTIONAL
+          example: RECOMMENDED
     CategoryGroupDTO:
       description: A specific category group with its attributes.
       required:
@@ -431,17 +446,20 @@ components:
           description: >-
             The id of the category group. You will have to use this id when you
             submit your product data.
-          example: 570ece74-dd53-480b-ba9a-60935241fa76
+          example: 246273a7-5288-3537-bc4f-7ba80cc3d929
         name:
           type: string
           nullable: false
           description: The name of the category group
-          example: 23_1_Schuhe
+          example: Fotokameras
         categories:
           description: The list of categories that are contained in this category group.
           type: array
           items:
             type: string
+          example:
+            - Kompaktkamera
+            - Systemkamera
         attributes:
           description: List of attributes for this category group.
           type: array
@@ -459,7 +477,7 @@ components:
           type: string
           nullable: false
           description: The name of the describing attribute, like 'Farbe' or 'Größe'.
-          example: Farbe
+          example: exampleAttribute
         values:
           type: array
           minItems: 1
@@ -469,11 +487,13 @@ components:
             type: string
           description: The values for the given attribute, like 'rot' or 'S'.
           example:
-            - rot
-            - blau
+            - exampleValue
+            - anotherExampleValue
         unit:
           type: string
-          description: The unit of the attribute.
+          description: >-
+            The unit of the attribute. If the attribute has a unit according to
+            the category groups endpoint, the unit is required.
           example: cm
     PriceDTO:
       description: Price information object.
@@ -530,6 +550,7 @@ components:
             http://www.ietf.org/rfc/rfc2396.txt and
             http://www.ietf.org/rfc/rfc2732.txt) with a maximum length of 2083
             characters.
+          example: https://upload.wikimedia.org/wikipedia/en/a/a9/Example.jpg
         type:
           nullable: false
           type: string
@@ -619,7 +640,7 @@ components:
             The EAN (European Article Number), also known as GTIN (Global Trade
             Item Number), is a worldwide unique article number for variations,
             which is assigned by GS1.
-          example: 1234567890123
+          example: '1234567890123'
         pricing:
           $ref: '#/components/schemas/PricingDTO'
         mediaAssets:
@@ -710,7 +731,7 @@ components:
             Denotes the assortment type of the product (like "OLED-Fernseher").
             Must be identical for all variations of a product.
           example: OLED-Fernseher
-        productAttributes:
+        attributes:
           type: array
           items:
             $ref: '#/components/schemas/NameValuesDTO'
@@ -752,56 +773,72 @@ components:
             - MEDIA_ASSET_URL
             - EAN
             - UNKNOWN
+          example: EXAMPLE_DETAIL
         value:
           description: The value of the corresponding detail.
           type: string
           nullable: false
+          example: exampleValue
     ConstraintViolationDTO:
       description: Constraint violation information object.
       properties:
         title:
           description: A short description of the error code.
           type: string
-          example: The provided value is not valid
+          example: Example description of the code
         code:
           description: The error code.
           type: string
           enum:
-            - BRAND_ID_IS_UNKNOWN
             - ATTRIBUTE_IS_UNKNOWN
-            - EAN_IS_NOT_UNIQUE_WITHIN_SUPPLIER_CODE
-            - EAN_IS_INVALID
-            - RECOMMENDED_ATTRIBUTE_IS_MISSING
+            - ATTRIBUTE_LEVEL_IS_INVALID
             - ATTRIBUTE_UNIT_IS_INVALID
+            - ATTRIBUTE_VALUE_CONTAINS_MORE_THAN_TWO_DECIMAL_PLACES
+            - ATTRIBUTE_VALUE_EXCEEDS_MAX_LENGTH
+            - ATTRIBUTE_VALUE_IS_INVALID
             - ATTRIBUTE_VALUE_IS_NOT_BOOLEAN
             - ATTRIBUTE_VALUE_IS_NOT_DATE
             - ATTRIBUTE_VALUE_IS_NOT_DECIMAL
             - ATTRIBUTE_VALUE_IS_NOT_INTEGER
-            - ATTRIBUTE_VALUE_IS_ZERO
             - ATTRIBUTE_VALUE_IS_NOT_POSITIVE
-            - ATTRIBUTE_VALUE_IS_INVALID
+            - ATTRIBUTE_VALUE_IS_ZERO
+            - BRAND_ID_IS_UNKNOWN
+            - CATEGORY_GROUP_ID_IS_UNKNOWN
+            - CATEGORY_IS_UNKNOWN
+            - EAN_IS_INVALID
+            - EAN_IS_NOT_UNIQUE_WITHIN_PRODUCT
+            - EAN_IS_NOT_UNIQUE_WITHIN_SUPPLIER_CODE
+            - ILLEGAL_OPERATING_MODEL
             - LEGACY_PRODUCT_UPDATE_REQUIRES_ALL_VARIATIONS
-            - LEGACY_SKU_IS_ASSOCIATED_TO_DIFFERENT_PRODUCT
             - LEGACY_SKU_EAN_IS_MISSING
-            - PERMISSION_IS_MISSING_FOR_SUPPLIER_CODE
+            - LEGACY_SKU_IS_ASSOCIATED_TO_DIFFERENT_PRODUCT
+            - MATERIAL_COMPONENTS_ARE_NOT_NAMED
+            - MATERIAL_COMPONENTS_DO_NOT_CONTAIN_ANY_MATERIAL
+            - MATERIAL_COMPOSITION_IS_INVALID
+            - MEDIA_ASSET_COLOR_SCHEME_IS_NOT_ALLOWED
+            - MEDIA_ASSET_DIMENSIONS_ARE_NOT_SUFFICIENT
             - MEDIA_ASSET_FILE_TYPE_IS_NOT_SUPPORTED
             - MEDIA_ASSET_IS_NOT_ACCESSIBLE
             - MEDIA_ASSET_IS_NOT_AVAILABLE
             - MEDIA_ASSET_IS_NOT_PROCESSABLE
             - MEDIA_ASSET_PROTOCOL_IS_UNKNOWN
-            - MEDIA_ASSET_TYPE_IS_NOT_SUPPORTED
             - MEDIA_ASSET_SIZE_EXCEEDS_LIMIT
+            - MEDIA_ASSET_TYPE_IS_NOT_SUPPORTED
             - MEDIA_ASSET_URI_IS_INVALID
-            - PACKING_UNIT_ID_IS_NOT_UNIQUE
-            - CATEGORY_GROUP_ID_IS_UNKNOWN
+            - MISSING_DELIVERY_TYPE
             - MISSING_VARIATION_TO_UPDATE_PRODUCT_ATTRIBUTE
-            - CATEGORY_IS_UNKNOWN
-            - SUPPLIER_CODE_IS_UNKNOWN
-            - SUPPLIER_CODE_IS_NOT_AUTHORIZED
+            - PACKING_UNIT_ID_IS_NOT_UNIQUE
+            - PERMISSION_IS_MISSING_FOR_SUPPLIER_CODE
+            - RECOMMENDED_ATTRIBUTE_IS_MISSING
             - SKU_IS_ASSOCIATED_TO_DIFFERENT_PRODUCT
             - SKU_IS_NOT_UNIQUE_IN_PRODUCT
-            - ATTRIBUTE_LEVEL_IS_INVALID
+            - SUPPLIER_CODE_IS_NOT_AUTHORIZED
+            - SUPPLIER_CODE_IS_UNKNOWN
+            - SUPPLIER_PRICE_IS_REQUIRED
             - UNKNOWN
+            - UNKNOWN_DELIVERY_TYPE
+            - UNKNOWN_OPERATING_MODEL
+          example: EXAMPLE_CODE
         details:
           description: Further details concerning the error code.
           type: array
@@ -814,7 +851,6 @@ components:
         - status
         - errors
         - warnings
-        - infos
       properties:
         sku:
           description: The affected sku.
@@ -839,11 +875,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ConstraintViolationDTO'
-        infos:
-          description: This container contains other notable information.
-          type: array
-          items:
-            $ref: '#/components/schemas/ConstraintViolationDTO'
     ProductResponseDTO:
       description: Product response object.
       required:
@@ -851,7 +882,6 @@ components:
         - status
         - errors
         - warnings
-        - infos
         - variations
       properties:
         productReference:
@@ -875,11 +905,6 @@ components:
             $ref: '#/components/schemas/ConstraintViolationDTO'
         warnings:
           description: This container contains the warnings that have occurred.
-          type: array
-          items:
-            $ref: '#/components/schemas/ConstraintViolationDTO'
-        infos:
-          description: This container contains other notable information.
           type: array
           items:
             $ref: '#/components/schemas/ConstraintViolationDTO'
@@ -919,7 +944,3 @@ components:
   responses:
     UnauthorizedError:
       description: API key is missing or invalid
-      headers:
-        WWW_Authenticate:
-          schema:
-            type: string
