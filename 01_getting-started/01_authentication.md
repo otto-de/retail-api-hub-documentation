@@ -17,7 +17,6 @@ The OTTO Retail-API provides the following token endpoints:
 | Endpoint                                                                                       | Description                                    |
 |------------------------------------------------------------------------------------------------| ---------------------------------------------- |
 | https://keycloak.apps.otto.de/sec-api/auth/realms/retailapi-prod/protocol/openid-connect/token | Endpoint for token retrieval.                  |
-| https://keycloak.apps.otto.de/sec-api/auth/realms/retailapi-prod/protocol/openid-connect/auth  | Endpoint for authentication and authorization. |
 
 Although you can expect that the tokens have the TTL (time to live) described below, we still recommend that you always check the actual expiry time by inspecting the `exp` claim of the JWT.
 
