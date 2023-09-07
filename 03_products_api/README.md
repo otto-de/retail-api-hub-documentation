@@ -14,6 +14,7 @@ Please note that articles where you need to specify material composition such as
 
 | *Date* | *Classification* | *Description* |
 | ------ | ----------- |----------- |
+| 2023-08-25 | Documentation | Update of error codes and levels |
 | 2023-07-12 | Documentation | Added example and error documentation |
 | 2023-06-02 | Documentation | Intial Version of documentation |
 | 2023-06-02 | New Version | Initial Version of the api has been released. |
@@ -90,7 +91,7 @@ The **status** of your submitted *product*:
   | *PARTIALLY_ACCEPTED* | Some of the variants of your product have been accepted/updated but not all due to errors in these variants. Please refer to the result of the individual variants in order to find out which variants were not accepted and for which reasons. |
   | *NOT_ACCEPTED* | Your product (and all the related variants) has not been accepted due to errors. Please refer to the details of the product and variants in order to find out the reasons |
 
-The **errors**, **warnings** and **infos** for your submitted *product*.
+The **errors** and **warnings** for your submitted *product*.
 
 - Each element is composed out of 
   - a *title* providing the description of the element
@@ -98,9 +99,7 @@ The **errors**, **warnings** and **infos** for your submitted *product*.
   - a list of *details* providing more details of the element (e.g. the affected attribute).
 - Please see below for the list and explanation of the possible elements.
 - All reported elements in the **errors** block lead to a rejection of the entire product. The product will not be created/updated at all.
-- All reported elements in the **warnings** block lead to a rejection of the individual attribute: The product will still be created/updated in general, however the individual attribute will not be set or - in case of an update - it will be reset.
-- All reported elements in the **infos** block will not affect the data submission and are for information purpose only (e.g. providing information about not yet submitted recommended information)
-
+- All reported elements in the **warnings** block lead to a rejection of the individual attribute or inform you about a not provided individual attribute which will not be set: The product will still be created/updated in general, however the individual attribute will not be set or - in case of an update - it will be reset.
 
 ### Variants level 
 
@@ -114,7 +113,7 @@ The **status** of your submitted *product*:
 | *ACCEPTED* | Your variant has been accepted/updated in our system |
 | *NOT_ACCEPTED* | Your variant has not been accepted due to errors. Please refer to the details in order to find out the reasons |
 
-The **errors**, **warnings** and **infos** for your submitted *variant*:
+The **errors** and **warnings** for your submitted *variant*:
 
 - Each element is composed out of 
   - a *title* providing the description of the element
@@ -122,8 +121,7 @@ The **errors**, **warnings** and **infos** for your submitted *variant*:
   - a list of *details* providing more details of the element (e.g. the affected attribute).
 - Please see below for the list and explanation of the possible elements.
 - All elements in the **errors** block lead to a rejection of the entire variant
-- All elements in the **warnings** block lead to a rejection of the individual attribute: The variant will be still be created/updated in general, however the individual attribute will not be set or - in case of an update - it will be reset.
-- All elements in the **infos** block will not affect the data submission and are for information purpose only (e.g. providing information about not yet submitted recommended information)
+- All reported elements in the **warnings** block lead to a rejection of the individual attribute or inform you about a not provided individual attribute which will not be set: The product will still be created/updated in general, however the individual attribute will not be set or - in case of an update - it will be reset.
 
 In case of errors or warnings, you can resubmit your data after correcting the errors and warnings.
 
@@ -145,4 +143,4 @@ You can find a working example of a product submission JSON [here](api-samples.m
 
 ## Error handling
 
-The list of errors, warnings and infos that are given by the API can be found [here](api-error-codes.md).
+The list of errors and warnings that are given by the API can be found [here](api-error-codes.md).
