@@ -14,7 +14,7 @@ Please note that articles where you need to specify material composition such as
 
 | *Date* | *Classification* | *Description* |
 | ------ | ----------- |----------- |
-| 2023-08-25 | Documentation | Update of error codes and levels |
+| 2023-09-14 | Documentation | Update of error codes and levels, added media asset details. Updated yml. |
 | 2023-07-12 | Documentation | Added example and error documentation |
 | 2023-06-02 | Documentation | Intial Version of documentation |
 | 2023-06-02 | New Version | Initial Version of the api has been released. |
@@ -144,3 +144,7 @@ You can find a working example of a product submission JSON [here](api-samples.m
 ## Error handling
 
 The list of errors and warnings that are given by the API can be found [here](api-error-codes.md).
+
+## Media assets
+
+The constraints of the media assets can be found [here](api-multimedia-assets.md).
