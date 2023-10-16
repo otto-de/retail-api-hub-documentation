@@ -12,12 +12,13 @@ Please note that articles where you need to specify material composition such as
 
 ### Change Log
 
-| *Date* | *Classification* | *Description* |
-| ------ | ----------- |----------- |
-| 2023-09-14 | Documentation | Update of error codes and levels, added media asset details. Updated yml. |
-| 2023-07-12 | Documentation | Added example and error documentation |
-| 2023-06-02 | Documentation | Intial Version of documentation |
-| 2023-06-02 | New Version | Initial Version of the api has been released. |
+| *Date*     | *Classification* | *Description*                                                             |
+|------------|------------------|---------------------------------------------------------------------------|
+| 2023-10-16 | Documentation    | Added error codes. Updated yml.                                           |
+| 2023-09-14 | Documentation    | Update of error codes and levels, added media asset details. Updated yml. |
+| 2023-07-12 | Documentation    | Added example and error documentation                                     |
+| 2023-06-02 | Documentation    | Initial Version of documentation                                          |
+| 2023-06-02 | New Version      | Initial Version of the api has been released.                             |
 
 ## Implementing the products API
 
