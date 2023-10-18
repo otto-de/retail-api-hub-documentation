@@ -7,14 +7,14 @@ Depending on the media asset type, different limitations will apply for the medi
 
 | type | description | minimum length of the shorter side [pixel] | minimum length of the longer side [pixel] | maximal image size [Byte] | allowed file types | color space
 | ---- | ----------- | ----------- | ----------- | ----------- | ----------- | ----------- |
-| ASSEMBLY_INSTRUCTIONS | |-|- | 26214400 | PDF | RGB |
-| COLOR VARIANT | | 34 | 34 | 10485760 | JPEG, PNG, TIFF | RGB |
-| DIMENSIONAL_DRAWING | | 480 | 960 | 26214400 | JPEG, PNG, TIFF | RGB |
-| ENERGY_EFFICIENCY_LABEL | | 480 | 960 | 26214400 | JPEG, PNG, TIFF | RGB |
-| IMAGE | | 480 | 960 | 26214400 | JPEG, PNG, TIFF | RGB |
-| MANUFACTURER_WARRANTY | | - | - | 26214400 | PDF| RGB |
-| MATERIAL_SAMPLE | | 480 | 960 | 26214400 | JPEG, PNG, TIFF | RGB |
-| PRODUCT_DATASHEET | |-|- | 26214400 | PDF | RGB |
-| SAFETY_DATASHEET | |-|- | 26214400 | PDF | RGB |
-| USER_MANUAL | |-|- | 26214400 | PDF | RGB |
-| WARNING_LABEL | |-|- | 26214400 | PDF | RGB |
+| ASSEMBLY_INSTRUCTIONS | |-|- | 26214400 | PDF | - |
+| COLOR VARIANT | | 34 | 34 | 10485760 | GIF, JPG/JPEG, PNG | RGB |
+| DIMENSIONAL_DRAWING | | 480 | 960 | 26214400 | GIF, JPG/JPEG, PNG, TIFF | RGB |
+| ENERGY_EFFICIENCY_LABEL | | 425 | 850 | 26214400 | GIF, JPG/JPEG, PNG, TIFF | RGB |
+| IMAGE | | 480 | 960 | 26214400 | GIF, JPG/JPEG, PNG, TIFF | RGB |
+| MANUFACTURER_WARRANTY | | - | - | 26214400 | PDF| - |
+| MATERIAL_SAMPLE | | 480 | 480 | 26214400 | GIF, JPG/JPEG, PNG | RGB |
+| PRODUCT_DATASHEET | |-|- | 26214400 | PDF | - |
+| SAFETY_DATASHEET | |-|- | 26214400 | PDF | - |
+| USER_MANUAL | |-|- | 26214400 | PDF | - |
+| WARNING_LABEL | |-|- | 26214400 | PDF | - |
