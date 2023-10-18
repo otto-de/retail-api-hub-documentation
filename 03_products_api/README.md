@@ -14,6 +14,7 @@ Please note that articles where you need to specify material composition such as
 
 | *Date* | *Classification* | *Description* |
 | ------ | ----------- |----------- |
+| 2023-10-02 | Documentation | Update media asset requirements. |
 | 2023-09-14 | Documentation | Update of error codes and levels, added media asset details. Updated yml. |
 | 2023-07-12 | Documentation | Added example and error documentation |
 | 2023-06-02 | Documentation | Intial Version of documentation |
