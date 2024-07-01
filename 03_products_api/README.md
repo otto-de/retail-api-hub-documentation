@@ -8,21 +8,17 @@ etc.) as we are learning from the feedback of our early adaptors. We welcome exp
 
 The API supports the submission of product data including prices, media assets and packing units in production.
 
-### Known limitations
-
-Please note that articles where you need to specify material composition such as textiles cannot be send via the API at
-this time as the API does not yet support the delivery of material compositions.
-
 ### Change Log
 
-| *Date*     | *Classification* | *Description*                                                                            |
-|------------|------------------|------------------------------------------------------------------------------------------|
-| 2023-11-08 | Documentation    | Update of error codes.                                                                   |
-| 2023-10-02 | Documentation    | Update media asset requirements.                                                         |
-| 2023-09-14 | Documentation    | Update of error codes and levels, added media asset details. Updated yaml documentation. |
-| 2023-07-12 | Documentation    | Added example and error documentation                                                    |
-| 2023-06-02 | Documentation    | Intial Version of documentation                                                          |
-| 2023-06-02 | New Version      | Initial Version of the api has been released.                                            |
+| *Date* | *Classification* | *Description* |
+| ------ | ----------- |----------- |
+| 2024-06-26 | Documentation | Added material composition and update of error codes. |
+| 2023-11-07 | Documentation | Update of error codes. |
+| 2023-10-02 | Documentation | Update media asset requirements. |
+| 2023-09-14 | Documentation | Update of error codes and levels, added media asset details. Updated yaml documentation. |
+| 2023-07-12 | Documentation | Added example and error documentation |
+| 2023-06-02 | Documentation | Intial Version of documentation |
+| 2023-06-02 | New Version | Initial Version of the api has been released. |
 
 ## Implementing the products API
 
@@ -180,3 +176,7 @@ The list of errors and warnings that are given by the API can be found [here](ap
 ## Media assets
 
 The constraints of the media assets can be found [here](api-multimedia-assets.md).
+
+## Material compositions
+
+The material composition is specified in the material composition field "Materialzusammensetzung". All details containing the syntax and the rules can be found [here](material-compositions.md)
