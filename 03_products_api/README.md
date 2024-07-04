@@ -179,4 +179,4 @@ The constraints of the media assets can be found [here](api-multimedia-assets.md
 
 ## Material compositions
 
-The material composition is specified in the material composition field "Materialzusammensetzung". All details containing the syntax and the rules can be found [here](material-compositions.md)
+The material composition is specified in the material composition field "Materialzusammensetzung". All details containing the syntax and the rules can be found [here](api-material-compositions.md).
