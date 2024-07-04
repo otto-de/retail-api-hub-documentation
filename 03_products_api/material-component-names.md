@@ -1,6 +1,6 @@
 # Material component names
 
-You can find the list of valid materialcomponent names here:
+You can find the list of valid material component names here:
 
 |Material component names       |
 |-------------------------------|
